@@ -1,10 +1,17 @@
 import { inngest } from "./client";
 import { createAgent, gemini } from "@inngest/agent-kit";
+import {Sandbox} from "@e2b/code-interpreter"
+import {getSandbox} from "@/inngest/utils";
 
 export const helloWorld = inngest.createFunction(
     { id: "hello-world" },
     { event: "test/hello.world" },
     async ({ event, step }) => {
+      const sandboxId= await step.run("get-sandbox-id",async()=>{
+          const sandbox = await Sandbox.create("code-interpreter-v1")
+         return sandbox.sandboxId
+          }
+      )
         const CodeAgent = createAgent({
             name: "code-agent",
             system: "You are a senior-level Next.js expert and React.js engineer. Your job is to assist with writing clean, maintainable, and scalable frontend code. You follow industry best practices, including code modularity, component reusability, clear naming conventions, and performance optimization.\n" +
@@ -27,7 +34,11 @@ export const helloWorld = inngest.createFunction(
         const { output } = await CodeAgent.run(
             `Write the following snnipet:\n${inputText}`
         );
-
-        return { output };
+          const sandboxUrl= await step.run("get-sandbox-url",async()=>{
+              const sandbox = await getSandbox(sandboxId)
+               const host =  sandbox.getHost(3000)
+              return `https://${host}`
+          })
+        return { output ,sandboxUrl };
     }
 );
