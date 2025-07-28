@@ -1,0 +1,17 @@
+# This is a config for E2B sandbox template.
+# You can use template ID (409emwjrpilbqr3gz3v4) or template name (forgeAura-builders-aap) to create a sandbox:
+
+# Python SDK
+# from e2b import Sandbox, AsyncSandbox
+# sandbox = Sandbox("forgeAura-builders-aap") # Sync sandbox
+# sandbox = await AsyncSandbox.create("forgeAura-builders-aap") # Async sandbox
+
+# JS SDK
+# import { Sandbox } from 'e2b'
+# const sandbox = await Sandbox.create('forgeAura-builders-aap')
+
+team_id = "99daebad-1143-453a-a2d4-aeb7ace8c357"
+start_cmd = "/compile_page.sh"
+dockerfile = "e2b.Dockerfile"
+template_name = "forgeAura-builders-aap"
+template_id = "409emwjrpilbqr3gz3v4"
